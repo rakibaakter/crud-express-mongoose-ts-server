@@ -8,12 +8,12 @@ export type Inventory = {
   inStock: boolean;
 };
 
-export type product = {
+export type Product = {
   name: string;
   description: string;
   price: number;
-  category: string[];
-  tags: number[];
+  category: string;
+  tags: string[];
   variants: Variant[];
   inventory: Inventory;
 };
