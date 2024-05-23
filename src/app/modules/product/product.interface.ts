@@ -1,3 +1,5 @@
+// defined type representing a document in MongoDB .
+
 export type Variant = {
   type: string;
   value: string;
