@@ -102,16 +102,6 @@ const deleteProductById = async (req: Request, res: Response) => {
   }
 };
 
-// find products by the search query
-const getProductsBySearchParam = async (req: Request, res: Response) => {
-  try {
-    const searchTerm = req.query.searchTerm;
-    console.log(searchTerm);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const productController = {
   createProduct,
   getAllProduct,

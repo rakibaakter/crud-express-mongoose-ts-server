@@ -38,8 +38,6 @@ const getAllProductFromDB = async (searchTerm?: string) => {
   return result;
 };
 
-export default getAllProductFromDB;
-
 // get single product by id
 const getSingleProductByIdFromDB = async (id: string) => {
   const result = await ProductModel.findById(id);
