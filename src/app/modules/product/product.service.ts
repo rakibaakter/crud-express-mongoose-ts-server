@@ -9,11 +9,36 @@ const createProductInDB = async (product: Product) => {
 };
 
 // get all product from db
-const getAllProductFromDB = async () => {
-  const result = await ProductModel.find();
+// const getAllProductFromDB = async (searchText: string | undefined) => {
+//   console.log(searchText);
+//   const searchTerm = searchText[0].toUpperCase() + searchText.substring(1);
+//   console.log(searchTerm);
+
+//   const result = await ProductModel.find();
+
+//   return result;
+// };
+
+const getAllProductFromDB = async (searchTerm?: string) => {
+  let query = {};
+
+  if (searchTerm) {
+    query = {
+      $or: [
+        { name: { $regex: searchTerm, $options: 'i' } }, //$option i for make the search item case insensitive
+        { description: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+        { tags: { $regex: searchTerm, $options: 'i' } },
+      ],
+    };
+  }
+
+  const result = await ProductModel.find(query);
 
   return result;
 };
+
+export default getAllProductFromDB;
 
 // get single product by id
 const getSingleProductByIdFromDB = async (id: string) => {
@@ -37,10 +62,18 @@ const deleteProductFromDB = async (id: string) => {
   return result;
 };
 
+// // get products by search param
+// const getProductsBySearchParamFromDB = async (searchTerm: string) => {
+//   // if()
+//   const result = await ProductModel.find();
+//   return result;
+// };
+
 export const productServices = {
   createProductInDB,
   getAllProductFromDB,
   getSingleProductByIdFromDB,
   updateSingleProductByIdFromDB,
   deleteProductFromDB,
+  // getProductsBySearchParamFromDB,
 };

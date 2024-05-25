@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { productServices } from './product.service';
 import productValidationSchema from './product.validation';
+import { string } from 'zod';
 
 // for upload a product
 const createProduct = async (req: Request, res: Response) => {
@@ -25,8 +26,11 @@ const createProduct = async (req: Request, res: Response) => {
 // for get all products
 const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const result = await productServices.getAllProductFromDB();
+    const searchTerm: string | undefined = req.query.searchTerm as
+      | string
+      | undefined;
 
+    const result = await productServices.getAllProductFromDB(searchTerm);
     // response
     res.status(200).json({
       success: true,
@@ -93,6 +97,16 @@ const deleteProductById = async (req: Request, res: Response) => {
       message: 'Product deletd successfully!',
       data: null,
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// find products by the search query
+const getProductsBySearchParam = async (req: Request, res: Response) => {
+  try {
+    const searchTerm = req.query.searchTerm;
+    console.log(searchTerm);
   } catch (error) {
     console.log(error);
   }
