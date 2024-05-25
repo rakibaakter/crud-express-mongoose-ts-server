@@ -23,6 +23,17 @@ const productSchema = new Schema<Product>({
   inventory: { type: inventorySchema, required: true },
 });
 
+// middleware as hook
+// productSchema.pre('findOneAndUpdate', function () {
+//   console.log(this.getFilter());
+//   console.log(this.getUpdate());
+// });
+
+// productSchema.post('findOneAndUpdate', (update, next) => {
+//   const doc = new ProductModel(update);
+//   next();
+// });
+
 // create a model
 
 export const ProductModel = model<Product>('Product', productSchema);

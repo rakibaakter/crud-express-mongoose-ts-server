@@ -16,13 +16,29 @@ const getAllProductFromDB = async () => {
 };
 
 // get single product by id
-const getSingleProductById = async (id: string) => {
+const getSingleProductByIdFromDB = async (id: string) => {
   const result = await ProductModel.findById(id);
   return result;
 };
 
+// update a single product
+
+const updateSingleProductByIdFromDB = async (
+  id: string,
+  updateDoc: Product,
+) => {
+  const result = await ProductModel.findByIdAndUpdate(id, updateDoc);
+  return result;
+};
+
+// delete a product
+// const deleteProductFromDB = async (id: string) => {
+//   const result = await ProductModel.deleteOne({ id : });
+// };
+
 export const productServices = {
   createProductInDB,
   getAllProductFromDB,
-  getSingleProductById,
+  getSingleProductByIdFromDB,
+  updateSingleProductByIdFromDB,
 };
