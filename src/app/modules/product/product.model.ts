@@ -1,15 +1,15 @@
 import { Schema, model } from 'mongoose';
 import { Inventory, Product, Variant } from './product.interface';
 
-const variantSchema = new Schema<Variant>({
-  type: { type: String, required: true },
-  value: { type: String, required: true },
-});
+// const variantSchema = new Schema<Variant>({
+//   type: { type: String, required: true },
+//   value: { type: String, required: true },
+// });
 
-const inventorySchema = new Schema<Inventory>({
-  quantity: { type: Number, required: true },
-  inStock: { type: Boolean, required: true },
-});
+// const inventorySchema = new Schema<Inventory>({
+//   quantity: { type: Number, required: true },
+//   inStock: { type: Boolean, required: true },
+// });
 
 // Create a Schema corresponding to the document interface.
 
@@ -19,8 +19,16 @@ const productSchema = new Schema<Product>({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   tags: { type: [String], required: true },
-  variants: { type: [variantSchema], required: true },
-  inventory: { type: inventorySchema, required: true },
+  variants: [
+    {
+      type: { type: String, required: true },
+      value: { type: String, required: true },
+    },
+  ],
+  inventory: {
+    quantity: { type: Number, required: true },
+    inStock: { type: Boolean, required: true },
+  },
 });
 
 // middleware as hook
