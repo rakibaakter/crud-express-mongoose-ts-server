@@ -1,6 +1,16 @@
 import { Request, Response } from 'express';
 import { orderValidationSchema } from './order.validation';
 import { orderServices } from './order.service';
+import { z } from 'zod';
+
+// Handle validation errors
+const handleValidationError = (res: Response, error: z.ZodError) => {
+  const errors = error.errors.map((err) => ({
+    field: err.path.join('.'),
+    message: err.message,
+  }));
+  return res.status(400).json({ success: false, errors });
+};
 
 // for upload an order
 const createOrder = async (req: Request, res: Response) => {
@@ -18,7 +28,11 @@ const createOrder = async (req: Request, res: Response) => {
       data: result?.data,
     });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return handleValidationError(res, error);
+    }
     console.log(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
 
@@ -37,6 +51,7 @@ const getAllOrder = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
 
