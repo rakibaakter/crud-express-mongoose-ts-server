@@ -41,25 +41,42 @@ const createOrderInDB = async (order: TOrder) => {
           };
         }
       }
+    } else {
+      return {
+        success: false,
+        message: 'Order not found',
+        data: null,
+      };
     }
   } catch (error) {
     console.log(error);
   }
-
-  // const result = await OrderModel.create(order);
-
-  // return result;
-  // return productId;
 };
 
 const getAllOrderFromDB = async (emailForSearch?: string) => {
-  let query = {};
-  if (emailForSearch) {
-    query = { email: { $eq: emailForSearch } };
+  try {
+    if (emailForSearch) {
+      let query = {};
+      query = { email: { $eq: emailForSearch } };
+      const result = await OrderModel.find(query);
+      return {
+        status: 200,
+        success: true,
+        message: 'Orders fetched successfully for user email!',
+        data: result,
+      };
+    } else {
+      const result = await OrderModel.find();
+      return {
+        status: 200,
+        success: true,
+        message: 'Orders fetched successfully !',
+        data: result,
+      };
+    }
+  } catch (error) {
+    console.log(error);
   }
-  const result = await OrderModel.find(query);
-
-  return result;
 };
 
 export const orderServices = {
