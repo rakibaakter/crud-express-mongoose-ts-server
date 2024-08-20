@@ -15,10 +15,10 @@ const handleValidationError = (res: Response, error: z.ZodError) => {
 // for upload a product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const product = req.body;
 
     // validation by zod
-    const zodParseData = productValidationSchema.parse(productData);
+    const zodParseData = productValidationSchema.parse(product);
 
     const result = await productServices.createProductInDB(zodParseData);
 
